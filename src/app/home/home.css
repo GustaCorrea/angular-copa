@@ -1,0 +1,191 @@
+
+.main-wrapper {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* --- HERO SECTION (Cor Sólida e Elegante) --- */
+.hero-section {
+  background-color: #0f172a; /* Cor sólida bem elegante, sem degradê */
+  padding: 80px 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.hero-container {
+  display: flex;
+  gap: 40px;
+  max-width: 1100px;
+  width: 100%;
+  align-items: center; /* Centraliza verticalmente os dois lados */
+}
+
+/* Lado Esquerdo - Só o texto bruto e grande */
+.hero-left {
+  flex: 1;
+  color: white;
+  padding: 20px 0;
+}
+
+.hero-left h1 {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin: 0;
+  font-weight: 800; /* Texto bem destacado */
+  letter-spacing: -1px; 
+}
+
+/* Lado Direito - O Card de Ação Limpo */
+.hero-right {
+  flex: 1;
+  background-color: #1e293b; /* Um tom levemente mais claro que o fundo */
+  border-radius: 12px;
+  padding: 50px 40px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Sombra elegante */
+  border: 1px solid #334155; /* Borda bem fina para destacar */
+}
+
+.hero-right h2 {
+  font-size: 1.8rem;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+/* Container para alinhar os botões lado a lado */
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.btn-green {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 16px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1; /* Faz os dois botões terem o mesmo tamanho */
+}
+
+.btn-green:hover {
+  background-color: #059669;
+  transform: translateY(-2px);
+}
+
+/* Novo botão secundário (Criar Time) */
+.btn-outline-light {
+  background-color: transparent;
+  color: #f8fafc;
+  border: 2px solid #475569; /* Borda cinza azulada elegante */
+  padding: 14px 20px; /* Levemente menor no padding para compensar a borda */
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1; /* Faz os dois botões terem o mesmo tamanho */
+}
+
+.btn-outline-light:hover {
+  background-color: #334155; /* Fundo levemente preenchido ao passar o mouse */
+  border-color: #94a3b8; /* Borda fica mais clara */
+  transform: translateY(-2px);
+}
+
+/* --- GRID DE TIMES --- */
+.teams-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 20px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 15px;
+}
+
+.team-card {
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fcfcfc;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.flag-img {
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+}
+
+.team-name {
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* --- FORMULÁRIOS --- */
+.form-section {
+  padding: 50px 20px;
+  display: flex;
+  justify-content: center;
+  background-color: #f9fafb;
+}
+
+.form-card {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #ccc;
+  color: #555;
+  padding: 12px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+}
