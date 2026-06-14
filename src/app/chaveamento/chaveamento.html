@@ -17,41 +17,49 @@
       <div class="bracket-column oitavas">
         <div class="matchup">
           <div class="team active-player">
-            <img [src]="meuTime?.bandeira" class="flag-img" /> {{ meuTime?.nome }}
+            <img [src]="partidas[0].timeCasa.bandeira" class="flag-img" />
+            {{ partidas[0].timeCasa.nome }}
             <span class="score">-</span>
           </div>
           <div class="team">
-            <img src="https://flagcdn.com/w160/fr.png" class="flag-img" /> França
-            <span class="score">-</span>
-          </div>
-        </div>
-        <div class="matchup">
-          <div class="team">
-            <img src="https://flagcdn.com/w160/ar.png" class="flag-img" /> Argentina
-            <span class="score">-</span>
-          </div>
-          <div class="team">
-            <img src="https://flagcdn.com/w160/uy.png" class="flag-img" /> Uruguai
+            <img [src]="partidas[0].timeFora.bandeira" class="flag-img" />
+            {{ partidas[0].timeFora.nome }}
             <span class="score">-</span>
           </div>
         </div>
         <div class="matchup">
           <div class="team">
-            <img src="https://flagcdn.com/w160/es.png" class="flag-img" /> Espanha
+            <img [src]="partidas[1].timeCasa.bandeira" class="flag-img" />
+            {{ partidas[1].timeCasa.nome }}
             <span class="score">-</span>
           </div>
           <div class="team">
-            <img src="https://flagcdn.com/w160/pt.png" class="flag-img" /> Portugal
+            <img [src]="partidas[1].timeFora.bandeira" class="flag-img" />
+            {{ partidas[1].timeFora.nome }}
             <span class="score">-</span>
           </div>
         </div>
         <div class="matchup">
           <div class="team">
-            <img src="https://flagcdn.com/w160/it.png" class="flag-img" /> Itália
+            <img [src]="partidas[2].timeCasa.bandeira" class="flag-img" />
+            {{ partidas[2].timeCasa.nome }}
             <span class="score">-</span>
           </div>
           <div class="team">
-            <img src="https://flagcdn.com/w160/nl.png" class="flag-img" /> Holanda
+            <img [src]="partidas[2].timeFora.bandeira" class="flag-img" />
+            {{ partidas[2].timeFora.nome }}
+            <span class="score">-</span>
+          </div>
+        </div>
+        <div class="matchup">
+          <div class="team">
+            <img [src]="partidas[3].timeCasa.bandeira" class="flag-img" />
+            {{ partidas[3].timeCasa.nome }}
+            <span class="score">-</span>
+          </div>
+          <div class="team">
+            <img [src]="partidas[3].timeFora.bandeira" class="flag-img" />
+            {{ partidas[3].timeFora.nome }}
             <span class="score">-</span>
           </div>
         </div>
@@ -67,7 +75,6 @@
           <div class="team placeholder">Vencedor J4</div>
         </div>
       </div>
-
       <div class="bracket-column semi">
         <div class="matchup empty">
           <div class="team placeholder">Vencedor Q1</div>
@@ -93,7 +100,6 @@
           <div class="team placeholder">Vencedor Q4</div>
         </div>
       </div>
-
       <div class="bracket-column quartas">
         <div class="matchup empty">
           <div class="team placeholder">Vencedor J5</div>
@@ -108,21 +114,49 @@
       <div class="bracket-column oitavas">
         <div class="matchup">
           <div class="team">
-            <img src="https://flagcdn.com/w160/gb-eng.png" class="flag-img" /> Inglaterra
+            <img [src]="partidas[4].timeCasa.bandeira" class="flag-img" />
+            {{ partidas[4].timeCasa.nome }}
             <span class="score">-</span>
           </div>
           <div class="team">
-            <img src="https://flagcdn.com/w160/us.png" class="flag-img" /> EUA
+            <img [src]="partidas[4].timeFora.bandeira" class="flag-img" />
+            {{ partidas[4].timeFora.nome }}
             <span class="score">-</span>
           </div>
         </div>
         <div class="matchup">
           <div class="team">
-            <img src="https://flagcdn.com/w160/de.png" class="flag-img" /> Alemanha
+            <img [src]="partidas[5].timeCasa.bandeira" class="flag-img" />
+            {{ partidas[5].timeCasa.nome }}
             <span class="score">-</span>
           </div>
           <div class="team">
-            <img src="https://flagcdn.com/w160/mx.png" class="flag-img" /> México
+            <img [src]="partidas[5].timeFora.bandeira" class="flag-img" />
+            {{ partidas[5].timeFora.nome }}
+            <span class="score">-</span>
+          </div>
+        </div>
+        <div class="matchup">
+          <div class="team">
+            <img [src]="partidas[6].timeCasa.bandeira" class="flag-img" />
+            {{ partidas[6].timeCasa.nome }}
+            <span class="score">-</span>
+          </div>
+          <div class="team">
+            <img [src]="partidas[6].timeFora.bandeira" class="flag-img" />
+            {{ partidas[6].timeFora.nome }}
+            <span class="score">-</span>
+          </div>
+        </div>
+        <div class="matchup">
+          <div class="team">
+            <img [src]="partidas[7].timeCasa.bandeira" class="flag-img" />
+            {{ partidas[7].timeCasa.nome }}
+            <span class="score">-</span>
+          </div>
+          <div class="team">
+            <img [src]="partidas[7].timeFora.bandeira" class="flag-img" />
+            {{ partidas[7].timeFora.nome }}
             <span class="score">-</span>
           </div>
         </div>

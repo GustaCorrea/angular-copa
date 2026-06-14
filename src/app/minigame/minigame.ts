@@ -12,12 +12,12 @@ export class MinigameComponent implements OnInit, OnDestroy {
   // Recebe os times do Chaveamento
   @Input() partidaAtual: any; 
   
-  // Avisa o Chaveamento quando o jogo acabar
-  @Output() jogoFinalizado = new EventEmitter<{placarA: number, placarB: number}>();
+  // Avisa o Chaveamento quando o jogo acabar com o novo padrão Casa/Fora
+  @Output() jogoFinalizado = new EventEmitter<{placarCasa: number, placarFora: number}>();
   @Output() fechar = new EventEmitter<void>();
 
-  placarA = 0;
-  placarB = 0;
+  placarCasa = 0;
+  placarFora = 0;
   mensagemAviso = 'Valendo vaga!';
   statusResultado: 'ganhou' | 'perdeu' | 'normal' = 'normal';
 
@@ -26,7 +26,7 @@ export class MinigameComponent implements OnInit, OnDestroy {
   direcaoCursor = 1; 
   velocidade = 1;
   intervaloAnimacao: any;
-  podeChutar: boolean = false; // Começa falso até a animação iniciar
+  podeChutar: boolean = false; 
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -35,7 +35,6 @@ export class MinigameComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Limpa a memória se o componente for destruído
     if (this.intervaloAnimacao) {
       clearInterval(this.intervaloAnimacao);
     }
@@ -48,7 +47,7 @@ export class MinigameComponent implements OnInit, OnDestroy {
     
     this.posicaoCursor = 0;
     this.direcaoCursor = 1;
-    this.podeChutar = true; // Libera o botão de chutar
+    this.podeChutar = true; 
 
     this.intervaloAnimacao = setInterval(() => {
       this.posicaoCursor += this.velocidade * this.direcaoCursor;
@@ -65,44 +64,41 @@ export class MinigameComponent implements OnInit, OnDestroy {
   }
 
   chutar() {
-    // TRAVA ANTI-SPAM: Se não puder chutar, sai da função
     if (!this.podeChutar) return;
-    this.podeChutar = false; // Bloqueia novos cliques imediatamente
+    this.podeChutar = false; 
 
     clearInterval(this.intervaloAnimacao);
 
     const acertou = this.posicaoCursor >= 45 && this.posicaoCursor <= 55;
 
     if (acertou) {
-      this.placarA++;
+      this.placarCasa++;
       this.mensagemAviso = 'GOLAÇO DO SEU TIME! ⚽';
     } else {
-      this.placarB++;
+      this.placarFora++;
       this.mensagemAviso = 'GOL DO ADVERSÁRIO! ❌';
     }
 
     this.cdr.detectChanges();
 
-    // VERIFICAÇÃO DO VENCEDOR (Melhor de 5 - Quem faz 3 primeiro)
-    if (this.placarA >= 3 || this.placarB >= 3) {
-      const venceuJogador = this.placarA >= 3;
+    // VERIFICAÇÃO DO VENCEDOR (Melhor de 5)
+    if (this.placarCasa >= 3 || this.placarFora >= 3) {
+      const venceuJogador = this.placarCasa >= 3;
       
       this.statusResultado = venceuJogador ? 'ganhou' : 'perdeu';
       this.mensagemAviso = venceuJogador 
-        ? `FIM DE JOGO! ${this.partidaAtual.timeA.nome.toUpperCase()} VENCEU! 🏆` 
-        : `FIM DE JOGO! ${this.partidaAtual.timeB.nome.toUpperCase()} VENCEU! ❌`;
+        ? `FIM DE JOGO! ${this.partidaAtual.timeCasa.nome.toUpperCase()} VENCEU! 🏆` 
+        : `FIM DE JOGO! ${this.partidaAtual.timeFora.nome.toUpperCase()} VENCEU! ❌`;
       
       this.cdr.detectChanges();
 
-      // Espera um tempo para o jogador ler e depois avisa o Pai que acabou
       setTimeout(() => {
-        this.jogoFinalizado.emit({ placarA: this.placarA, placarB: this.placarB });
+        this.jogoFinalizado.emit({ placarCasa: this.placarCasa, placarFora: this.placarFora });
       }, 3500); 
       
-      return; // Acabou, não reinicia a barra
+      return; 
     }
 
-    // Se ninguém ganhou ainda, prepara a próxima rodada
     this.velocidade += 0.1;
     setTimeout(() => {
       this.mensagemAviso = 'Valendo!';

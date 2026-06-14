@@ -5,19 +5,19 @@
 
     <div class="scoreboard">
       <div class="team-display">
-        <img [src]="partidaAtual.timeA.bandeira" class="big-flag" />
-        {{ partidaAtual.timeA.nome }}
+        <img [src]="partidaAtual.timeCasa.bandeira" class="big-flag" />
+        {{ partidaAtual.timeCasa.nome }}
       </div>
 
       <div class="score-display">
-        <span>{{ placarA }}</span>
+        <span>{{ placarCasa }}</span>
         <span class="score-x">x</span>
-        <span>{{ placarB }}</span>
+        <span>{{ placarFora }}</span>
       </div>
 
       <div class="team-display">
-        <img [src]="partidaAtual.timeB.bandeira" class="big-flag" />
-        {{ partidaAtual.timeB.nome }}
+        <img [src]="partidaAtual.timeFora.bandeira" class="big-flag" />
+        {{ partidaAtual.timeFora.nome }}
       </div>
     </div>
 
