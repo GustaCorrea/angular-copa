@@ -1,20 +1,17 @@
 <div class="main-wrapper">
-  
   <div class="hero-section" *ngIf="modoAtual === 'inicio'">
     <div class="hero-container">
-      
       <div class="hero-left glass-effect">
-        <h1>JOGUE<br>SUA<br>COPA<br>DO<br>MUNDO</h1>
+        <h1>JOGUE<br />SUA<br />COPA<br />DO<br />MUNDO</h1>
       </div>
-        <div class="hero-right">
-            <h2>Selecione uma seleção<br>ou crie a sua própria</h2>
-            
-            <div class="action-buttons">
-                <button class="btn-green" (click)="mudarModo('escolher')">Escolher Time</button>
-                <button class="btn-outline-light" (click)="mudarModo('criar')">Criar Time</button>
-            </div>
-        </div>
+      <div class="hero-right">
+        <h2>Selecione uma seleção<br />ou crie a sua própria</h2>
 
+        <div class="action-buttons">
+          <button class="btn-green" (click)="mudarModo('escolher')">Escolher Time</button>
+          <button class="btn-outline-light" (click)="mudarModo('criar')">Criar Time</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -22,20 +19,30 @@
     <div class="form-card">
       <h2 *ngIf="modoAtual === 'escolher'">Selecione sua Seleção</h2>
       <h2 *ngIf="modoAtual === 'criar'">Crie seu Time</h2>
-      
+
       <select *ngIf="modoAtual === 'escolher'" [(ngModel)]="timeSelecionadoId" class="input-field">
         <option [ngValue]="null" disabled>Selecione um time...</option>
         <option *ngFor="let time of times" [ngValue]="time.id">{{ time.nome }}</option>
       </select>
 
       <div *ngIf="modoAtual === 'criar'" class="create-inputs">
-        <input type="text" [(ngModel)]="novoTime.nome" placeholder="Nome do Time" class="input-field">
-        <input type="text" [(ngModel)]="novoTime.bandeiraUrl" placeholder="URL da Bandeira" class="input-field">
+        <input
+          type="text"
+          [(ngModel)]="novoTime.nome"
+          placeholder="Nome do Time"
+          class="input-field"
+        />
+        <input
+          type="text"
+          [(ngModel)]="novoTime.bandeiraUrl"
+          placeholder="URL da Bandeira"
+          class="input-field"
+        />
       </div>
 
       <div class="form-buttons">
         <button class="btn-outline" (click)="mudarModo('inicio')">Cancelar</button>
-        <button class="btn-green" (click)="iniciarCopa()">Confirmar e Jogar</button>
+        <button routerLink="/chaveamento">Confirmar e jogar</button>
       </div>
     </div>
   </div>
@@ -44,10 +51,9 @@
     <h3 class="section-title">Times da Copa do Mundo</h3>
     <div class="teams-grid">
       <div class="team-card" *ngFor="let time of times">
-        <img [src]="time.bandeira" [alt]="'Bandeira ' + time.nome" class="flag-img">
+        <img [src]="time.bandeira" [alt]="'Bandeira ' + time.nome" class="flag-img" />
         <span class="team-name">{{ time.nome }}</span>
       </div>
     </div>
   </div>
-
 </div>

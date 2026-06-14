@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MinigameComponent } from '../minigame/minigame';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-chaveamento',
   standalone: true,
-  imports: [CommonModule, MinigameComponent],
+  imports: [CommonModule, MinigameComponent, RouterModule],
   templateUrl: './chaveamento.html',
   styleUrls: ['./chaveamento.css']
 })
 export class ChaveamentoComponent implements OnInit {
+
+  constructor(private cdr: ChangeDetectorRef, private router: Router) {}
+
   faseAtual = 'Oitavas de Final';
   meuTime: any = null;
   mostrarMinigame = false;
@@ -49,7 +53,7 @@ export class ChaveamentoComponent implements OnInit {
     console.log('[Angular] Chamando o Java para excluir a Copa...');
   }
 
-  mudarTime() {
-    console.log('[Angular] Voltando para a tela inicial...');
+   mudarTime() {
+    this.router.navigate(['/']);
   }
 }
