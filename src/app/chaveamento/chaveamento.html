@@ -17,7 +17,7 @@
       <div class="bracket-column oitavas">
         <div class="matchup">
           <div class="team active-player">
-            <img [src]="meuTime.bandeira" class="flag-img" /> {{ meuTime.nome }}
+            <img [src]="meuTime?.bandeira" class="flag-img" /> {{ meuTime?.nome }}
             <span class="score">-</span>
           </div>
           <div class="team">
@@ -126,68 +126,14 @@
             <span class="score">-</span>
           </div>
         </div>
-        <div class="matchup">
-          <div class="team">
-            <img src="https://flagcdn.com/w160/jp.png" class="flag-img" /> Japão
-            <span class="score">-</span>
-          </div>
-          <div class="team">
-            <img src="https://flagcdn.com/w160/kr.png" class="flag-img" /> Coreia
-            <span class="score">-</span>
-          </div>
-        </div>
-        <div class="matchup">
-          <div class="team">
-            <img src="https://flagcdn.com/w160/ma.png" class="flag-img" /> Marrocos
-            <span class="score">-</span>
-          </div>
-          <div class="team">
-            <img src="https://flagcdn.com/w160/sn.png" class="flag-img" /> Senegal
-            <span class="score">-</span>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </div>
-
-// Modal do minigame
-<div class="modal-overlay" *ngIf="mostrarMinigame">
-  <div class="minigame-modal">
-    <button class="close-btn" (click)="fecharMinigame()">✖</button>
-
-    <div class="minigame-phase">{{ faseAtual | uppercase }}</div>
-
-    <div class="scoreboard">
-      <div class="team-display">
-        <img [src]="partidaAtual.timeA.bandeira" class="big-flag" />
-        <span>{{ partidaAtual.timeA.nome }}</span>
-      </div>
-
-      <div class="score-display">{{ placarA }} <span class="score-x">X</span> {{ placarB }}</div>
-
-      <div class="team-display">
-        <img [src]="partidaAtual.timeB.bandeira" class="big-flag" />
-        <span>{{ partidaAtual.timeB.nome }}</span>
-      </div>
-    </div>
-
-    <div
-      class="feedback-msg"
-      [class.goal]="mensagemAviso.includes('GOLAÇO')"
-      [class.win-text]="statusResultado === 'ganhou'"
-      [class.lose-text]="statusResultado === 'perdeu'"
-    >
-      {{ mensagemAviso }}
-    </div>
-
-    <div class="minigame-container">
-      <div class="minigame-bar">
-        <div class="target-zone"></div>
-        <div class="cursor-block" [style.left.%]="posicaoCursor"></div>
-      </div>
-    </div>
-
-    <button class="btn-green btn-chutar" (click)="chutar()">CHUTAR !</button>
-  </div>
-</div>
+<app-minigame
+  *ngIf="mostrarMinigame"
+  [partidaAtual]="partidaAtual"
+  (jogoFinalizado)="finalizarPartida($event)"
+  (fechar)="fecharMinigame()"
+>
+</app-minigame>

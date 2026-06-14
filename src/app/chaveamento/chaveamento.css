@@ -109,7 +109,7 @@ button {
 }
 
 .matchup.empty {
-  opacity: 0.5; /* Deixa os jogos futuros mais transparentes */
+  opacity: 0.5;
 }
 
 .team {
@@ -123,7 +123,7 @@ button {
 .team:last-child { border-bottom: none; }
 
 .team.active-player {
-  background-color: rgba(16, 185, 129, 0.2); /* Destaque leve verde para o seu time */
+  background-color: rgba(16, 185, 129, 0.2);
   font-weight: bold;
 }
 
@@ -147,172 +147,4 @@ button {
   color: #94a3b8;
   font-style: italic;
   justify-content: center;
-}
-
-/* --- MODAL DO MINIGAME --- */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(5px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.minigame-modal {
-  background-color: #1e293b;
-  width: 100%;
-  max-width: 650px;
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-  border: 1px solid #334155;
-  text-align: center;
-  position: relative;
-  color: white;
-}
-
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  background: transparent;
-  border: none;
-  color: #94a3b8;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.close-btn:hover {
-  color: #ef4444;
-}
-
-.minigame-phase {
-  background-color: #3b82f6;
-  display: inline-block;
-  padding: 6px 15px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  letter-spacing: 1px;
-  margin-bottom: 30px;
-}
-
-/* --- PLACAR --- */
-.scoreboard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  padding: 0 20px;
-}
-
-.team-display {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 120px;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.big-flag {
-  width: 80px;
-  height: 50px;
-  border-radius: 6px;
-  object-fit: cover;
-  margin-bottom: 10px;
-  border: 2px solid #334155;
-}
-
-.score-display {
-  font-size: 4rem;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.score-x {
-  font-size: 2rem;
-  color: #64748b;
-}
-
-.feedback-msg {
-  height: 25px;
-  color: #ef4444; /* Vermelho padrão para erro */
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.feedback-msg.goal {
-  color: #10b981; /* Verde se for golaço */
-}
-/* Estilo quando o jogador ganha a melhor de 5 */
-.feedback-msg.win-text {
-  color: #10b981 !important; /* Verde */
-  font-size: 1.4rem;
-  font-weight: 800;
-  text-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
-  transition: all 0.3s ease;
-}
-
-/* Estilo quando o adversário ganha a melhor de 5 */
-.feedback-msg.lose-text {
-  color: #ef4444 !important; /* Vermelho */
-  font-size: 1.4rem;
-  font-weight: 800;
-  text-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
-  transition: all 0.3s ease;
-}
-
-/* --- BARRINHA DO MINIGAME --- */
-.minigame-container {
-  margin: 0 auto 30px auto;
-  width: 100%;
-  max-width: 500px;
-}
-
-.minigame-bar {
-  width: 100%;
-  height: 50px;
-  background-color: #0f172a;
-  border-radius: 25px;
-  position: relative;
-  overflow: hidden;
-  border: 2px solid #334155;
-}
-
-.target-zone {
-  position: absolute;
-  left: 45%;
-  width: 10%; /* 10% do tamanho da barra é a área verde */
-  height: 100%;
-  background-color: rgba(16, 185, 129, 0.3);
-  border-left: 2px solid #10b981;
-  border-right: 2px solid #10b981;
-}
-
-.cursor-block {
-  position: absolute;
-  top: 0;
-  width: 15px;
-  height: 100%;
-  background-color: #ef4444; /* Bloco vermelho */
-  border-radius: 5px;
-  transform: translateX(-50%); /* Centraliza o bloco no ponto exato da % */
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
-}
-
-.btn-chutar {
-  padding: 18px 60px;
-  font-size: 1.3rem;
-  border-radius: 30px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
 }
