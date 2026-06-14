@@ -1,15 +1,53 @@
-/* --- MODAL TROCA DE TIME COMPACTO --- */
+/* --- FUNDO ESCURO DO MODAL --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* CAIXA DO MODAL */
 .modal-compacto {
   background-color: #1e293b;
   width: 100%;
-  max-width: 450px; /* Bem menor e mais elegante que o jogo */
+  max-width: 400px;
   border-radius: 16px;
   padding: 30px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-  position: relative;
+  position: relative; /* Isso prende o botão X dentro do modal */
   border: 1px solid #334155;
   text-align: center;
   color: white;
+}
+
+/* --- BOTÃO X VERMELHO NO CANTO SUPERIOR DIREITO --- */
+.close-btn-red {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.close-btn-red:hover {
+  background-color: #dc2626;
 }
 
 .modal-compacto h3 { margin-top: 0; margin-bottom: 20px; }
@@ -29,6 +67,9 @@
   color: #94a3b8;
   border-radius: 0;
   padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .tabs-nav button.ativo {
@@ -36,33 +77,9 @@
   color: white;
 }
 
-.tab-body { min-height: 160px; margin-bottom: 20px; }
+.tab-body { min-height: 120px; margin-bottom: 20px; }
 
-/* Grid de Existentes */
-.grid-times {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.time-card {
-  background-color: #0f172a;
-  border: 2px solid transparent;
-  border-radius: 8px;
-  padding: 10px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 0.8rem;
-}
-
-.time-card img { width: 40px; height: 26px; border-radius: 3px; margin-bottom: 5px; object-fit: cover;}
-.time-card:hover { background-color: #334155; }
-.time-card.selecionado { border-color: #10b981; background-color: rgba(16, 185, 129, 0.1); }
-
-/* Inputs de Criação */
+/* Inputs e Select */
 .input-moderno {
   width: 100%;
   padding: 12px;
@@ -74,6 +91,12 @@
   box-sizing: border-box;
 }
 
+.select-moderno {
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* Preview do Novo Time */
 .preview-time {
   display: flex;
   align-items: center;
@@ -87,4 +110,8 @@
 }
 
 .preview-time img { width: 30px; border-radius: 3px; }
-.btn-full { width: 100%; padding: 14px; font-size: 1.1rem; }
+
+/* Botão Confirmar */
+.btn-full { width: 100%; padding: 14px; font-size: 1.1rem; border: none; border-radius: 8px; cursor: pointer;}
+.btn-green { background-color: #10b981; color: white; font-weight: bold;}
+.btn-green:hover { background-color: #059669; }

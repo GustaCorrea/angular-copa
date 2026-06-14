@@ -21,8 +21,11 @@ export class ModalTimeComponent implements OnInit {
   novoTime = { nome: '', bandeira: '' };
 
   ngOnInit() {
-    // Quando abre, já deixa o time atual pré-selecionado
-    this.timeSelecionado = this.meuTimeAtual;
+    if (this.meuTimeAtual) {
+    this.timeSelecionado = this.timesDisponiveis.find(t => t.nome === this.meuTimeAtual.nome) || null;
+  } else {
+    this.timeSelecionado = null;
+  }
   }
 
   confirmar() {
