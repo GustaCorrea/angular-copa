@@ -6,7 +6,7 @@
     </div>
 
     <div class="header-actions">
-      <button class="btn-outline-light" (click)="mudarTime()">Trocar Time</button>
+      <button class="btn-outline-light" (click)="abrirModalTroca()">Trocar Time</button>
       <button class="btn-danger" (click)="excluirCopa()">Excluir Copa</button>
       <button class="btn-green play-btn" (click)="jogarPartida()">Jogar Próxima Partida ⚽</button>
     </div>
@@ -130,6 +130,7 @@
     </div>
   </div>
 </div>
+
 <app-minigame
   *ngIf="mostrarMinigame"
   [partidaAtual]="partidaAtual"
@@ -137,3 +138,12 @@
   (fechar)="fecharMinigame()"
 >
 </app-minigame>
+
+<app-modal-time
+  *ngIf="mostrarModalTroca"
+  [meuTimeAtual]="meuTime"
+  [timesDisponiveis]="timesDisponiveis"
+  (timeConfirmado)="efetuarTroca($event)"
+  (fecharModal)="mostrarModalTroca = false"
+>
+</app-modal-time>

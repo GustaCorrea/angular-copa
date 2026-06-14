@@ -1,0 +1,90 @@
+/* --- MODAL TROCA DE TIME COMPACTO --- */
+.modal-compacto {
+  background-color: #1e293b;
+  width: 100%;
+  max-width: 450px; /* Bem menor e mais elegante que o jogo */
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  position: relative;
+  border: 1px solid #334155;
+  text-align: center;
+  color: white;
+}
+
+.modal-compacto h3 { margin-top: 0; margin-bottom: 20px; }
+
+/* Navegação das Abas */
+.tabs-nav {
+  display: flex;
+  background-color: #0f172a;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.tabs-nav button {
+  flex: 1;
+  background: transparent;
+  color: #94a3b8;
+  border-radius: 0;
+  padding: 10px;
+}
+
+.tabs-nav button.ativo {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.tab-body { min-height: 160px; margin-bottom: 20px; }
+
+/* Grid de Existentes */
+.grid-times {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.time-card {
+  background-color: #0f172a;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.time-card img { width: 40px; height: 26px; border-radius: 3px; margin-bottom: 5px; object-fit: cover;}
+.time-card:hover { background-color: #334155; }
+.time-card.selecionado { border-color: #10b981; background-color: rgba(16, 185, 129, 0.1); }
+
+/* Inputs de Criação */
+.input-moderno {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  color: white;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.preview-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 1px dashed #3b82f6;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.preview-time img { width: 30px; border-radius: 3px; }
+.btn-full { width: 100%; padding: 14px; font-size: 1.1rem; }

@@ -1,0 +1,49 @@
+<div class="modal-overlay">
+  <div class="modal-compacto">
+    <button class="close-btn" (click)="fechar()">×</button>
+    <h3>Escolha sua Seleção</h3>
+
+    <div class="tabs-nav">
+      <button [class.ativo]="abaAtiva === 'existente'" (click)="abaAtiva = 'existente'">
+        Times Existentes
+      </button>
+      <button [class.ativo]="abaAtiva === 'novo'" (click)="abaAtiva = 'novo'">Criar Novo</button>
+    </div>
+
+    <div class="tab-body" *ngIf="abaAtiva === 'existente'">
+      <div class="grid-times">
+        <div
+          class="time-card"
+          *ngFor="let t of timesDisponiveis"
+          [class.selecionado]="timeSelecionado?.nome === t.nome"
+          (click)="timeSelecionado = t"
+        >
+          <img [src]="t.bandeira" />
+          <span>{{ t.nome }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-body" *ngIf="abaAtiva === 'novo'">
+      <input
+        type="text"
+        placeholder="Nome do Time (Ex: Vasco)"
+        [(ngModel)]="novoTime.nome"
+        class="input-moderno"
+      />
+      <input
+        type="text"
+        placeholder="URL da Bandeira"
+        [(ngModel)]="novoTime.bandeira"
+        class="input-moderno"
+      />
+
+      <div class="preview-time" *ngIf="novoTime.nome || novoTime.bandeira">
+        <img [src]="novoTime.bandeira || 'https://flagcdn.com/w160/xx.png'" />
+        <span>{{ novoTime.nome || 'Nome do Time' }}</span>
+      </div>
+    </div>
+
+    <button class="btn-green btn-full" (click)="confirmar()">Confirmar Time</button>
+  </div>
+</div>
