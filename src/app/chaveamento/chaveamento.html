@@ -1,0 +1,193 @@
+<div class="bracket-wrapper">
+  <div class="bracket-header">
+    <div class="header-info">
+      <h1>Copa do Mundo 2026</h1>
+      <span class="badge">{{ faseAtual }}</span>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-outline-light" (click)="mudarTime()">Trocar Time</button>
+      <button class="btn-danger" (click)="excluirCopa()">Excluir Copa</button>
+      <button class="btn-green play-btn" (click)="jogarPartida()">Jogar Próxima Partida ⚽</button>
+    </div>
+  </div>
+
+  <div class="bracket-container">
+    <div class="bracket-side left-side">
+      <div class="bracket-column oitavas">
+        <div class="matchup">
+          <div class="team active-player">
+            <img [src]="meuTime.bandeira" class="flag-img" /> {{ meuTime.nome }}
+            <span class="score">-</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/w160/fr.png" class="flag-img" /> França
+            <span class="score">-</span>
+          </div>
+        </div>
+        <div class="matchup">
+          <div class="team">
+            <img src="https://flagcdn.com/w160/ar.png" class="flag-img" /> Argentina
+            <span class="score">-</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/w160/uy.png" class="flag-img" /> Uruguai
+            <span class="score">-</span>
+          </div>
+        </div>
+        <div class="matchup">
+          <div class="team">
+            <img src="https://flagcdn.com/w160/es.png" class="flag-img" /> Espanha
+            <span class="score">-</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/w160/pt.png" class="flag-img" /> Portugal
+            <span class="score">-</span>
+          </div>
+        </div>
+        <div class="matchup">
+          <div class="team">
+            <img src="https://flagcdn.com/w160/it.png" class="flag-img" /> Itália
+            <span class="score">-</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/w160/nl.png" class="flag-img" /> Holanda
+            <span class="score">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bracket-column quartas">
+        <div class="matchup empty">
+          <div class="team placeholder">Vencedor J1</div>
+          <div class="team placeholder">Vencedor J2</div>
+        </div>
+        <div class="matchup empty">
+          <div class="team placeholder">Vencedor J3</div>
+          <div class="team placeholder">Vencedor J4</div>
+        </div>
+      </div>
+
+      <div class="bracket-column semi">
+        <div class="matchup empty">
+          <div class="team placeholder">Vencedor Q1</div>
+          <div class="team placeholder">Vencedor Q2</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bracket-center">
+      <div class="trophy-icon">🏆</div>
+      <div class="bracket-column final">
+        <div class="matchup empty final-match">
+          <div class="team placeholder">Finalista 1</div>
+          <div class="team placeholder">Finalista 2</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bracket-side right-side">
+      <div class="bracket-column semi">
+        <div class="matchup empty">
+          <div class="team placeholder">Vencedor Q3</div>
+          <div class="team placeholder">Vencedor Q4</div>
+        </div>
+      </div>
+
+      <div class="bracket-column quartas">
+        <div class="matchup empty">
+          <div class="team placeholder">Vencedor J5</div>
+          <div class="team placeholder">Vencedor J6</div>
+        </div>
+        <div class="matchup empty">
+          <div class="team placeholder">Vencedor J7</div>
+          <div class="team placeholder">Vencedor J8</div>
+        </div>
+      </div>
+
+      <div class="bracket-column oitavas">
+        <div class="matchup">
+          <div class="team">
+            <img src="https://flagcdn.com/w160/gb-eng.png" class="flag-img" /> Inglaterra
+            <span class="score">-</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/w160/us.png" class="flag-img" /> EUA
+            <span class="score">-</span>
+          </div>
+        </div>
+        <div class="matchup">
+          <div class="team">
+            <img src="https://flagcdn.com/w160/de.png" class="flag-img" /> Alemanha
+            <span class="score">-</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/w160/mx.png" class="flag-img" /> México
+            <span class="score">-</span>
+          </div>
+        </div>
+        <div class="matchup">
+          <div class="team">
+            <img src="https://flagcdn.com/w160/jp.png" class="flag-img" /> Japão
+            <span class="score">-</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/w160/kr.png" class="flag-img" /> Coreia
+            <span class="score">-</span>
+          </div>
+        </div>
+        <div class="matchup">
+          <div class="team">
+            <img src="https://flagcdn.com/w160/ma.png" class="flag-img" /> Marrocos
+            <span class="score">-</span>
+          </div>
+          <div class="team">
+            <img src="https://flagcdn.com/w160/sn.png" class="flag-img" /> Senegal
+            <span class="score">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+// Modal do minigame
+<div class="modal-overlay" *ngIf="mostrarMinigame">
+  <div class="minigame-modal">
+    <button class="close-btn" (click)="fecharMinigame()">✖</button>
+
+    <div class="minigame-phase">{{ faseAtual | uppercase }}</div>
+
+    <div class="scoreboard">
+      <div class="team-display">
+        <img [src]="partidaAtual.timeA.bandeira" class="big-flag" />
+        <span>{{ partidaAtual.timeA.nome }}</span>
+      </div>
+
+      <div class="score-display">{{ placarA }} <span class="score-x">X</span> {{ placarB }}</div>
+
+      <div class="team-display">
+        <img [src]="partidaAtual.timeB.bandeira" class="big-flag" />
+        <span>{{ partidaAtual.timeB.nome }}</span>
+      </div>
+    </div>
+
+    <div
+      class="feedback-msg"
+      [class.goal]="mensagemAviso.includes('GOLAÇO')"
+      [class.win-text]="statusResultado === 'ganhou'"
+      [class.lose-text]="statusResultado === 'perdeu'"
+    >
+      {{ mensagemAviso }}
+    </div>
+
+    <div class="minigame-container">
+      <div class="minigame-bar">
+        <div class="target-zone"></div>
+        <div class="cursor-block" [style.left.%]="posicaoCursor"></div>
+      </div>
+    </div>
+
+    <button class="btn-green btn-chutar" (click)="chutar()">CHUTAR !</button>
+  </div>
+</div>
