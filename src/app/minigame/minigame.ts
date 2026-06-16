@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CopaService } from '../services/copa.service';
+import { Copa } from '../models/copa.model';
 
 @Component({
   selector: 'app-minigame',
@@ -11,6 +13,10 @@ import { CommonModule } from '@angular/common';
 export class MinigameComponent implements OnInit, OnDestroy {
   // Recebe os times do Chaveamento
   @Input() partidaAtual: any; 
+  @Input() meuTime: any;
+
+  copa?: Copa; // Variável para guardar o estado do jogo
+  copaId: number = 1; 
   
   // Avisa o Chaveamento quando o jogo acabar com o novo padrão Casa/Fora
   @Output() jogoFinalizado = new EventEmitter<{placarCasa: number, placarFora: number}>();
@@ -28,10 +34,13 @@ export class MinigameComponent implements OnInit, OnDestroy {
   intervaloAnimacao: any;
   podeChutar: boolean = false; 
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+  ) {}
+
 
   ngOnInit() {
-    this.iniciarAnimacao();
+  this.iniciarAnimacao();
   }
 
   ngOnDestroy() {
@@ -70,12 +79,21 @@ export class MinigameComponent implements OnInit, OnDestroy {
     clearInterval(this.intervaloAnimacao);
 
     const acertou = this.posicaoCursor >= 45 && this.posicaoCursor <= 55;
+    const jogadorECasa = this.partidaAtual.timeCasa.id === this.meuTime.id;
 
     if (acertou) {
-      this.placarCasa++;
+      if (jogadorECasa) {
+        this.placarCasa++;
+      } else {
+        this.placarFora++;
+      }
       this.mensagemAviso = 'GOLAÇO DO SEU TIME! ⚽';
     } else {
-      this.placarFora++;
+      if (jogadorECasa) {
+        this.placarFora++; 
+      } else {
+        this.placarCasa++; 
+      }
       this.mensagemAviso = 'GOL DO ADVERSÁRIO! ❌';
     }
 
@@ -94,7 +112,7 @@ export class MinigameComponent implements OnInit, OnDestroy {
 
       setTimeout(() => {
         this.jogoFinalizado.emit({ placarCasa: this.placarCasa, placarFora: this.placarFora });
-      }, 3500); 
+      }, 3500);
       
       return; 
     }

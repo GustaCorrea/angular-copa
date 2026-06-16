@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { CopaService } from '../services/copa.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule], // Importações
+  imports: [CommonModule, FormsModule], // Importações
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
@@ -14,6 +15,11 @@ export class HomeComponent {
   modoAtual: 'inicio' | 'escolher' | 'criar' = 'inicio';
   timeSelecionadoId: number | null = null;
   novoTime = { nome: '', bandeiraUrl: '' };
+
+  constructor(
+    private router: Router,
+    private copaService: CopaService
+  ) {}
 
   times = [
     // América do Sul
@@ -75,7 +81,23 @@ export class HomeComponent {
     this.modoAtual = modo;
   }
 
-  iniciarCopa() {
-    console.log('Iniciando copa...');
+  confirmarEJogar() {
+    if (this.modoAtual === 'escolher' && this.timeSelecionadoId) {
+      
+      // Chama o backend para criar a Copa com o ID selecionado
+      this.copaService.iniciarCopa(this.timeSelecionadoId).subscribe({
+        next: (copaCriada) => {
+          console.log('Sucesso! Copa gerada no Java com ID:', copaCriada.id);
+          this.router.navigate(['/chaveamento', copaCriada.id]);
+        },
+        error: (err) => {
+          console.error('Erro ao criar a copa no back-end', err);
+          alert('Não foi possível iniciar a Copa. Verifica se o Java está a correr!');
+        }
+      });
+      
+    } else if (this.modoAtual === 'criar') {
+      console.log('Ainda não implementado: Criar time customizado.');
+    }
   }
 }

@@ -4,6 +4,6 @@ import { ChaveamentoComponent } from './chaveamento/chaveamento';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, 
-  { path: 'chaveamento', component: ChaveamentoComponent }, 
+  { path: 'chaveamento/:id', component: ChaveamentoComponent },
   { path: '**', redirectTo: '' }
 ];

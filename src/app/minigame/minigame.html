@@ -1,11 +1,11 @@
 <div class="modal-overlay">
   <div class="minigame-modal">
     <button class="close-btn" (click)="fecharModal()">×</button>
-    <div class="minigame-phase">OITAVAS DE FINAL</div>
+    <div class="minigame-phase">{{ partidaAtual.fase }}</div>
 
     <div class="scoreboard">
       <div class="team-display">
-        <img [src]="partidaAtual.timeCasa.bandeira" class="big-flag" />
+        <img [src]="partidaAtual.timeCasa.urlBandeira" class="big-flag" />
         {{ partidaAtual.timeCasa.nome }}
       </div>
 
@@ -16,7 +16,7 @@
       </div>
 
       <div class="team-display">
-        <img [src]="partidaAtual.timeFora.bandeira" class="big-flag" />
+        <img [src]="partidaAtual.timeFora.urlBandeira" class="big-flag" />
         {{ partidaAtual.timeFora.nome }}
       </div>
     </div>

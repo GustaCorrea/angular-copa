@@ -1,4 +1,4 @@
-<div class="bracket-wrapper">
+<div class="bracket-wrapper" *ngIf="copa">
   <div class="bracket-header">
     <div class="header-info">
       <h1>Copa do Mundo 2026</h1>
@@ -6,79 +6,112 @@
     </div>
 
     <div class="header-actions">
-      <button class="btn-outline-light" (click)="abrirModalTroca()">Trocar Time</button>
+      <button
+        class="btn-outline-light"
+        (click)="abrirModalTroca()"
+        *ngIf="copa?.faseAtual === 'OITAVAS'"
+      >
+        Trocar Time
+      </button>
       <button class="btn-danger" (click)="excluirCopa()">Excluir Copa</button>
-      <button class="btn-green play-btn" (click)="jogarPartida()">Jogar Próxima Partida ⚽</button>
+      <button
+        class="btn-green play-btn"
+        (click)="jogarPartida()"
+        [disabled]="!partidaAtual || jogadorEliminado"
+      >
+        {{
+          partidaAtual
+            ? 'Jogar Próxima Partida ⚽'
+            : jogadorEliminado
+              ? 'Eliminado 😭'
+              : 'Aguardando Fase...'
+        }}
+      </button>
     </div>
   </div>
 
   <div class="bracket-container">
     <div class="bracket-side left-side">
       <div class="bracket-column oitavas">
-        <div class="matchup">
-          <div class="team active-player">
-            <img [src]="partidas[0].timeCasa.bandeira" class="flag-img" />
-            {{ partidas[0].timeCasa.nome }}
-            <span class="score">-</span>
+        <div class="matchup" *ngFor="let i of [0, 1, 2, 3]">
+          <div
+            class="team"
+            [ngClass]="{ 'time-destaque': oitavas[i]?.timeCasa?.id === meuTime?.id }"
+          >
+            <img [src]="oitavas[i]?.timeCasa?.urlBandeira" class="flag-img" *ngIf="oitavas[i]" />
+            {{ oitavas[i]?.timeCasa?.nome || '???' }}
+            <span class="score">{{ oitavas[i]?.concluida ? oitavas[i]?.placarCasa : '-' }}</span>
           </div>
-          <div class="team">
-            <img [src]="partidas[0].timeFora.bandeira" class="flag-img" />
-            {{ partidas[0].timeFora.nome }}
-            <span class="score">-</span>
-          </div>
-        </div>
-        <div class="matchup">
-          <div class="team">
-            <img [src]="partidas[1].timeCasa.bandeira" class="flag-img" />
-            {{ partidas[1].timeCasa.nome }}
-            <span class="score">-</span>
-          </div>
-          <div class="team">
-            <img [src]="partidas[1].timeFora.bandeira" class="flag-img" />
-            {{ partidas[1].timeFora.nome }}
-            <span class="score">-</span>
-          </div>
-        </div>
-        <div class="matchup">
-          <div class="team">
-            <img [src]="partidas[2].timeCasa.bandeira" class="flag-img" />
-            {{ partidas[2].timeCasa.nome }}
-            <span class="score">-</span>
-          </div>
-          <div class="team">
-            <img [src]="partidas[2].timeFora.bandeira" class="flag-img" />
-            {{ partidas[2].timeFora.nome }}
-            <span class="score">-</span>
-          </div>
-        </div>
-        <div class="matchup">
-          <div class="team">
-            <img [src]="partidas[3].timeCasa.bandeira" class="flag-img" />
-            {{ partidas[3].timeCasa.nome }}
-            <span class="score">-</span>
-          </div>
-          <div class="team">
-            <img [src]="partidas[3].timeFora.bandeira" class="flag-img" />
-            {{ partidas[3].timeFora.nome }}
-            <span class="score">-</span>
+          <div
+            class="team"
+            [ngClass]="{ 'time-destaque': oitavas[i]?.timeFora?.id === meuTime?.id }"
+          >
+            <img [src]="oitavas[i]?.timeFora?.urlBandeira" class="flag-img" *ngIf="oitavas[i]" />
+            {{ oitavas[i]?.timeFora?.nome || '???' }}
+            <span class="score">{{ oitavas[i]?.concluida ? oitavas[i]?.placarFora : '-' }}</span>
           </div>
         </div>
       </div>
 
       <div class="bracket-column quartas">
-        <div class="matchup empty">
-          <div class="team placeholder">Vencedor J1</div>
-          <div class="team placeholder">Vencedor J2</div>
-        </div>
-        <div class="matchup empty">
-          <div class="team placeholder">Vencedor J3</div>
-          <div class="team placeholder">Vencedor J4</div>
+        <div class="matchup" *ngFor="let i of [0, 1]" [ngClass]="{ empty: !quartas[i] }">
+          <div
+            class="team"
+            [ngClass]="{
+              placeholder: !quartas[i],
+              'time-destaque': quartas[i]?.timeCasa?.id === meuTime?.id,
+            }"
+          >
+            <img [src]="quartas[i]?.timeCasa?.urlBandeira" class="flag-img" *ngIf="quartas[i]" />
+            {{ quartas[i]?.timeCasa?.nome || 'Vencedor' }}
+            <span class="score" *ngIf="quartas[i]">{{
+              quartas[i]?.concluida ? quartas[i]?.placarCasa : '-'
+            }}</span>
+          </div>
+          <div
+            class="team"
+            [ngClass]="{
+              placeholder: !quartas[i],
+              'time-destaque': quartas[i]?.timeFora?.id === meuTime?.id,
+            }"
+          >
+            <img [src]="quartas[i]?.timeFora?.urlBandeira" class="flag-img" *ngIf="quartas[i]" />
+            {{ quartas[i]?.timeFora?.nome || 'Vencedor' }}
+            <span class="score" *ngIf="quartas[i]">{{
+              quartas[i]?.concluida ? quartas[i]?.placarFora : '-'
+            }}</span>
+          </div>
         </div>
       </div>
+
       <div class="bracket-column semi">
-        <div class="matchup empty">
-          <div class="team placeholder">Vencedor Q1</div>
-          <div class="team placeholder">Vencedor Q2</div>
+        <div class="matchup" [ngClass]="{ empty: !semis[0] }">
+          <div
+            class="team"
+            [ngClass]="{
+              placeholder: !semis[0],
+              'time-destaque': semis[0]?.timeCasa?.id === meuTime?.id,
+            }"
+          >
+            <img [src]="semis[0]?.timeCasa?.urlBandeira" class="flag-img" *ngIf="semis[0]" />
+            {{ semis[0]?.timeCasa?.nome || 'Vencedor' }}
+            <span class="score" *ngIf="semis[0]">{{
+              semis[0]?.concluida ? semis[0]?.placarCasa : '-'
+            }}</span>
+          </div>
+          <div
+            class="team"
+            [ngClass]="{
+              placeholder: !semis[0],
+              'time-destaque': semis[0]?.timeFora?.id === meuTime?.id,
+            }"
+          >
+            <img [src]="semis[0]?.timeFora?.urlBandeira" class="flag-img" *ngIf="semis[0]" />
+            {{ semis[0]?.timeFora?.nome || 'Vencedor' }}
+            <span class="score" *ngIf="semis[0]">{{
+              semis[0]?.concluida ? semis[0]?.placarFora : '-'
+            }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -86,78 +119,141 @@
     <div class="bracket-center">
       <div class="trophy-icon">🏆</div>
       <div class="bracket-column final">
-        <div class="matchup empty final-match">
-          <div class="team placeholder">Finalista 1</div>
-          <div class="team placeholder">Finalista 2</div>
+        <div class="matchup final-match" [ngClass]="{ empty: !finais[0] }">
+          <div
+            class="team"
+            [ngClass]="{
+              placeholder: !finais[0],
+              'time-destaque': finais[0]?.timeCasa?.id === meuTime?.id,
+            }"
+          >
+            <img [src]="finais[0]?.timeCasa?.urlBandeira" class="flag-img" *ngIf="finais[0]" />
+            {{ finais[0]?.timeCasa?.nome || 'Finalista 1' }}
+            <span class="score" *ngIf="finais[0]">{{
+              finais[0]?.concluida ? finais[0]?.placarCasa : '-'
+            }}</span>
+          </div>
+          <div
+            class="team"
+            [ngClass]="{
+              placeholder: !finais[0],
+              'time-destaque': finais[0]?.timeFora?.id === meuTime?.id,
+            }"
+          >
+            <img [src]="finais[0]?.timeFora?.urlBandeira" class="flag-img" *ngIf="finais[0]" />
+            {{ finais[0]?.timeFora?.nome || 'Finalista 2' }}
+            <span class="score" *ngIf="finais[0]">{{
+              finais[0]?.concluida ? finais[0]?.placarFora : '-'
+            }}</span>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="bracket-side right-side">
       <div class="bracket-column semi">
-        <div class="matchup empty">
-          <div class="team placeholder">Vencedor Q3</div>
-          <div class="team placeholder">Vencedor Q4</div>
+        <div class="matchup" [ngClass]="{ empty: !semis[1] }">
+          <div
+            class="team"
+            [ngClass]="{
+              placeholder: !semis[1],
+              'time-destaque': semis[1]?.timeCasa?.id === meuTime?.id,
+            }"
+          >
+            <span class="score" *ngIf="semis[1]">{{
+              semis[1]?.concluida ? semis[1]?.placarCasa : '-'
+            }}</span>
+            {{ semis[1]?.timeCasa?.nome || 'Vencedor' }}
+            <img
+              [src]="semis[1]?.timeCasa?.urlBandeira"
+              class="flag-img right-side-img"
+              *ngIf="semis[1]"
+            />
+          </div>
+          <div
+            class="team"
+            [ngClass]="{
+              placeholder: !semis[1],
+              'time-destaque': semis[1]?.timeFora?.id === meuTime?.id,
+            }"
+          >
+            <span class="score" *ngIf="semis[1]">{{
+              semis[1]?.concluida ? semis[1]?.placarFora : '-'
+            }}</span>
+            {{ semis[1]?.timeFora?.nome || 'Vencedor' }}
+            <img
+              [src]="semis[1]?.timeFora?.urlBandeira"
+              class="flag-img right-side-img"
+              *ngIf="semis[1]"
+            />
+          </div>
         </div>
       </div>
+
       <div class="bracket-column quartas">
-        <div class="matchup empty">
-          <div class="team placeholder">Vencedor J5</div>
-          <div class="team placeholder">Vencedor J6</div>
-        </div>
-        <div class="matchup empty">
-          <div class="team placeholder">Vencedor J7</div>
-          <div class="team placeholder">Vencedor J8</div>
+        <div class="matchup" *ngFor="let i of [2, 3]" [ngClass]="{ empty: !quartas[i] }">
+          <div
+            class="team"
+            [ngClass]="{
+              placeholder: !quartas[i],
+              'time-destaque': quartas[i]?.timeCasa?.id === meuTime?.id,
+            }"
+          >
+            <span class="score" *ngIf="quartas[i]">{{
+              quartas[i]?.concluida ? quartas[i]?.placarCasa : '-'
+            }}</span>
+            {{ quartas[i]?.timeCasa?.nome || 'Vencedor' }}
+            <img
+              [src]="quartas[i]?.timeCasa?.urlBandeira"
+              class="flag-img right-side-img"
+              *ngIf="quartas[i]"
+            />
+          </div>
+          <div
+            class="team"
+            [ngClass]="{
+              placeholder: !quartas[i],
+              'time-destaque': quartas[i]?.timeFora?.id === meuTime?.id,
+            }"
+          >
+            <span class="score" *ngIf="quartas[i]">{{
+              quartas[i]?.concluida ? quartas[i]?.placarFora : '-'
+            }}</span>
+            {{ quartas[i]?.timeFora?.nome || 'Vencedor' }}
+            <img
+              [src]="quartas[i]?.timeFora?.urlBandeira"
+              class="flag-img right-side-img"
+              *ngIf="quartas[i]"
+            />
+          </div>
         </div>
       </div>
 
       <div class="bracket-column oitavas">
-        <div class="matchup">
-          <div class="team">
-            <img [src]="partidas[4].timeCasa.bandeira" class="flag-img" />
-            {{ partidas[4].timeCasa.nome }}
-            <span class="score">-</span>
+        <div class="matchup" *ngFor="let i of [4, 5, 6, 7]">
+          <div
+            class="team"
+            [ngClass]="{ 'time-destaque': oitavas[i]?.timeCasa?.id === meuTime?.id }"
+          >
+            <span class="score">{{ oitavas[i]?.concluida ? oitavas[i]?.placarCasa : '-' }}</span>
+            {{ oitavas[i]?.timeCasa?.nome || '???' }}
+            <img
+              [src]="oitavas[i]?.timeCasa?.urlBandeira"
+              class="flag-img right-side-img"
+              *ngIf="oitavas[i]"
+            />
           </div>
-          <div class="team">
-            <img [src]="partidas[4].timeFora.bandeira" class="flag-img" />
-            {{ partidas[4].timeFora.nome }}
-            <span class="score">-</span>
-          </div>
-        </div>
-        <div class="matchup">
-          <div class="team">
-            <img [src]="partidas[5].timeCasa.bandeira" class="flag-img" />
-            {{ partidas[5].timeCasa.nome }}
-            <span class="score">-</span>
-          </div>
-          <div class="team">
-            <img [src]="partidas[5].timeFora.bandeira" class="flag-img" />
-            {{ partidas[5].timeFora.nome }}
-            <span class="score">-</span>
-          </div>
-        </div>
-        <div class="matchup">
-          <div class="team">
-            <img [src]="partidas[6].timeCasa.bandeira" class="flag-img" />
-            {{ partidas[6].timeCasa.nome }}
-            <span class="score">-</span>
-          </div>
-          <div class="team">
-            <img [src]="partidas[6].timeFora.bandeira" class="flag-img" />
-            {{ partidas[6].timeFora.nome }}
-            <span class="score">-</span>
-          </div>
-        </div>
-        <div class="matchup">
-          <div class="team">
-            <img [src]="partidas[7].timeCasa.bandeira" class="flag-img" />
-            {{ partidas[7].timeCasa.nome }}
-            <span class="score">-</span>
-          </div>
-          <div class="team">
-            <img [src]="partidas[7].timeFora.bandeira" class="flag-img" />
-            {{ partidas[7].timeFora.nome }}
-            <span class="score">-</span>
+          <div
+            class="team"
+            [ngClass]="{ 'time-destaque': oitavas[i]?.timeFora?.id === meuTime?.id }"
+          >
+            <span class="score">{{ oitavas[i]?.concluida ? oitavas[i]?.placarFora : '-' }}</span>
+            {{ oitavas[i]?.timeFora?.nome || '???' }}
+            <img
+              [src]="oitavas[i]?.timeFora?.urlBandeira"
+              class="flag-img right-side-img"
+              *ngIf="oitavas[i]"
+            />
           </div>
         </div>
       </div>
@@ -165,9 +261,53 @@
   </div>
 </div>
 
+<div class="modal-overlay" *ngIf="jogadorEliminado && !campeao">
+  <div class="minigame-modal" style="text-align: center; padding: 40px">
+    <div style="font-size: 80px; margin-bottom: 10px">😭</div>
+    <h1 class="lose-text" style="font-size: 32px; margin-bottom: 20px">VOCÊ FOI ELIMINADO!</h1>
+    <div style="color: #ccc; margin-bottom: 30px; font-size: 18px">
+      Infelizmente o seu time não conseguiu avançar. Tente novamente em outra Copa!
+    </div>
+    <button class="btn-green play-btn" (click)="excluirCopa()" style="width: 100%">
+      Jogar Nova Copa
+    </button>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="campeao">
+  <div class="minigame-modal" style="text-align: center; padding: 40px">
+    <div style="font-size: 80px; margin-bottom: 10px">🏆</div>
+    <h1
+      *ngIf="campeao.id === meuTime.id"
+      class="win-text"
+      style="font-size: 32px; margin-bottom: 20px"
+    >
+      VOCÊ É O CAMPEÃO DO MUNDO!
+    </h1>
+    <h1
+      *ngIf="campeao.id !== meuTime.id"
+      class="lose-text"
+      style="font-size: 32px; margin-bottom: 20px"
+    >
+      FIM DE JOGO
+    </h1>
+    <div style="color: #ccc; margin-bottom: 20px; font-size: 18px">
+      A seleção que levantou a taça foi:
+    </div>
+    <div class="team-display" style="justify-content: center; font-size: 28px; margin-bottom: 40px">
+      <img [src]="campeao.urlBandeira" class="big-flag" style="width: 80px; margin-right: 15px" />
+      {{ campeao.nome }}
+    </div>
+    <button class="btn-green play-btn" (click)="excluirCopa()" style="width: 100%">
+      Jogar Nova Copa
+    </button>
+  </div>
+</div>
+
 <app-minigame
   *ngIf="mostrarMinigame"
   [partidaAtual]="partidaAtual"
+  [meuTime]="meuTime"
   (jogoFinalizado)="finalizarPartida($event)"
   (fechar)="fecharMinigame()"
 >
