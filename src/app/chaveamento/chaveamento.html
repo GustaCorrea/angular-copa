@@ -2,14 +2,14 @@
   <div class="bracket-header">
     <div class="header-info">
       <h1>Copa do Mundo 2026</h1>
-      <span class="badge">{{ faseAtual }}</span>
+      <span class="badge">{{ copa.faseAtual }}</span>
     </div>
 
     <div class="header-actions">
       <button
         class="btn-outline-light"
         (click)="abrirModalTroca()"
-        *ngIf="copa?.faseAtual === 'OITAVAS'"
+        *ngIf="copa.faseAtual === 'OITAVAS'"
       >
         Trocar Time
       </button>
@@ -22,9 +22,13 @@
         {{
           partidaAtual
             ? 'Jogar Próxima Partida ⚽'
-            : jogadorEliminado
-              ? 'Eliminado 😭'
-              : 'Aguardando Fase...'
+            : campeao
+              ? campeao.id === meuTime?.id
+                ? 'Campeão! 🏆'
+                : 'Fim de Jogo ❌'
+              : jogadorEliminado
+                ? 'Eliminado 😭'
+                : 'Aguardando Fase...'
         }}
       </button>
     </div>
@@ -278,14 +282,14 @@
   <div class="minigame-modal" style="text-align: center; padding: 40px">
     <div style="font-size: 80px; margin-bottom: 10px">🏆</div>
     <h1
-      *ngIf="campeao.id === meuTime.id"
+      *ngIf="campeao.id === meuTime?.id"
       class="win-text"
       style="font-size: 32px; margin-bottom: 20px"
     >
       VOCÊ É O CAMPEÃO DO MUNDO!
     </h1>
     <h1
-      *ngIf="campeao.id !== meuTime.id"
+      *ngIf="campeao.id !== meuTime?.id"
       class="lose-text"
       style="font-size: 32px; margin-bottom: 20px"
     >

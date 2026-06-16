@@ -33,7 +33,6 @@ export class ChaveamentoComponent implements OnInit {
   meuTime: any = null;
   partidaAtual: Partida | null = null; 
 
-  // Arrays separados para manter o seu design visual
   oitavas: Partida[] = [];
   quartas: Partida[] = [];
   semis: Partida[] = [];
@@ -61,6 +60,7 @@ export class ChaveamentoComponent implements OnInit {
 
         this.oitavas = data.partidas.filter(p => p.fase === 'OITAVAS');
 
+        // Mapeia os times das oitavas para a lista do modal de troca
         const timesSet = new Map();
         this.oitavas.forEach(p => {
           timesSet.set(p.timeCasa.id, p.timeCasa);
@@ -69,34 +69,41 @@ export class ChaveamentoComponent implements OnInit {
         this.timesDisponiveis = Array.from(timesSet.values());
 
         this.quartas = data.partidas.filter(p => p.fase === 'QUARTAS');
-        this.semis = data.partidas.filter(p => p.fase === 'SEMIFINAL');
+        this.semis = data.partidas.filter(p => p.fase.includes('SEMI'));
         this.finais = data.partidas.filter(p => p.fase === 'FINAL');
         
-        // logica do campeão
+        // 1. LÓGICA DO CAMPEÃO DA FINAL
         if (this.finais.length > 0 && this.finais[0].concluida) {
           const partidaFinal = this.finais[0];
-          // Descobre quem é o campeão baseado no vencedorId
-          if (partidaFinal.vencedorId === partidaFinal.timeCasa.id) {
+          
+          const idVencedorFinal = partidaFinal.vencedorId || 
+            (partidaFinal.placarCasa! > partidaFinal.placarFora! ? partidaFinal.timeCasa.id : partidaFinal.timeFora.id);
+
+          if (idVencedorFinal === partidaFinal.timeCasa.id) {
             this.campeao = partidaFinal.timeCasa;
-          } else if (partidaFinal.vencedorId === partidaFinal.timeFora.id) {
+          } else {
             this.campeao = partidaFinal.timeFora;
           }
         }
 
-        // 2. logica de eliminacao
+        // 2. LÓGICA DE ELIMINAÇÃO 
         const partidasDoJogador = data.partidas.filter(p => 
           p.timeCasa.id === data.timeDoJogador.id || p.timeFora.id === data.timeDoJogador.id
         );
-        const ultimaPartida = partidasDoJogador.reverse().find(p => p.concluida);
         
-        // Se o jogador perdeu
-        if (ultimaPartida && ultimaPartida.vencedorId !== data.timeDoJogador.id) {
-          this.jogadorEliminado = true;
+        // Cria uma cópia para inverter o array sem mutar a lista original de partidas
+        const ultimaPartida = [...partidasDoJogador].reverse().find(p => p.concluida);
+        
+        if (ultimaPartida) {
+          const idVencedor = ultimaPartida.vencedorId || 
+            (ultimaPartida.placarCasa! > ultimaPartida.placarFora! ? ultimaPartida.timeCasa.id : ultimaPartida.timeFora.id);
+          
+          this.jogadorEliminado = (idVencedor !== data.timeDoJogador.id);
         } else {
           this.jogadorEliminado = false;
         }
 
-        // 3. atualiza a partida atual
+        // 3. ATUALIZA A PARTIDA ATUAL 
         this.partidaAtual = data.partidas.find(p => 
           !p.concluida && 
           (p.timeCasa.id === data.timeDoJogador.id || p.timeFora.id === data.timeDoJogador.id)
@@ -117,11 +124,13 @@ export class ChaveamentoComponent implements OnInit {
   finalizarPartida(resultado: {placarCasa: number, placarFora: number}) {
     this.mostrarMinigame = false;
     
-    // Salva o placar no Java
     if (this.partidaAtual) {
-      this.copaService.salvarPlacar(this.partidaAtual.id, resultado).subscribe(() => {
-        console.log("Placar salvo no backend! Atualizando chaveamento...");
-        this.carregarChaveamento(); // Recarrega a tela para mostrar o avanço de fase
+      this.copaService.salvarPlacar(this.partidaAtual.id, resultado).subscribe({
+        next: () => {
+          console.log("Placar salvo no backend! Atualizando chaveamento...");
+          this.carregarChaveamento(); 
+        },
+        error: (err) => console.error("Erro ao salvar placar:", err)
       });
     }
   }
@@ -132,23 +141,19 @@ export class ChaveamentoComponent implements OnInit {
 
   abrirModalTroca() {
     if (this.copa?.faseAtual !== 'OITAVAS') {
-    console.warn('Não é permitido trocar de time após o início das Oitavas!');
-    return;
-  }
-  
-   this.mostrarModalTroca = true;
+      console.warn('Não é permitido trocar de time após o início das Oitavas!');
+      return;
+    }
+    this.mostrarModalTroca = true;
   }
 
- efetuarTroca(novoTime: any) {
+  efetuarTroca(novoTime: any) {
     if (!novoTime || !this.copa) return;
 
-    // Chama o Java para atualizar o banco de dados
     this.copaService.trocarTime(this.copa.id, novoTime.id).subscribe({
       next: () => {
         console.log("Time alterado no backend com sucesso para:", novoTime.nome);
         this.mostrarModalTroca = false;
-        
-        // Recarrega a copa inteira para atualizar os destaques e a partida atual
         this.carregarChaveamento(); 
       },
       error: (err) => {
@@ -161,14 +166,12 @@ export class ChaveamentoComponent implements OnInit {
   excluirCopa() {
     if (!this.copa) return;
 
-    //confirmação ao usuário antes de apagar
     const confirmacao = confirm('Tem certeza que deseja excluir esta Copa? Todo o progresso será perdido!');
 
     if (confirmacao) {
       this.copaService.excluirCopa(this.copa.id).subscribe({
         next: () => {
           console.log('[Angular] Copa excluída com sucesso do banco de dados!');
-          // Redireciona o jogador de volta para a tela inicial
           this.router.navigate(['/']); 
         },
         error: (err) => {

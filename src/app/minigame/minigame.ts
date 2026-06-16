@@ -101,12 +101,12 @@ export class MinigameComponent implements OnInit, OnDestroy {
 
     // VERIFICAÇÃO DO VENCEDOR (Melhor de 5)
     if (this.placarCasa >= 3 || this.placarFora >= 3) {
-      const venceuJogador = this.placarCasa >= 3;
+     const venceuJogador = jogadorECasa ? (this.placarCasa >= 3) : (this.placarFora >= 3);
       
       this.statusResultado = venceuJogador ? 'ganhou' : 'perdeu';
       this.mensagemAviso = venceuJogador 
-        ? `FIM DE JOGO! ${this.partidaAtual.timeCasa.nome.toUpperCase()} VENCEU! 🏆` 
-        : `FIM DE JOGO! ${this.partidaAtual.timeFora.nome.toUpperCase()} VENCEU! ❌`;
+        ? `FIM DE JOGO! SEU TIME VENCEU! 🏆` 
+        : `FIM DE JOGO! ADVERSÁRIO VENCEU! ❌`;
       
       this.cdr.detectChanges();
 
@@ -114,7 +114,7 @@ export class MinigameComponent implements OnInit, OnDestroy {
         this.jogoFinalizado.emit({ placarCasa: this.placarCasa, placarFora: this.placarFora });
       }, 3500);
       
-      return; 
+      return;
     }
 
     this.velocidade += 0.1;
